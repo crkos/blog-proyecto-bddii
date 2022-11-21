@@ -89,3 +89,28 @@ exports.deleteBook = async (req, res) => {
     });
 
 }
+
+exports.getAllBooks = async (req, res) => {
+    const allBooks = await Libro.getAllBook();
+
+
+    res.status(200).json({
+        message: "Data!",
+        data: {allBooks}
+    });
+
+}
+
+exports.getSingleBook = async (req, res) => {
+    const {bookId} = req.params;
+
+    const libro = await Libro.findById(bookId);
+
+    if(!libro) return sendError(res, "Book doesn't exists");
+
+    res.status(200).json({
+        message: "Data!",
+        data: {libro}
+    })
+
+}

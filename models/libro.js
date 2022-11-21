@@ -24,6 +24,19 @@ class Libro {
 
     }
 
+    static getAllBook = async (table = 'libro') => {
+        const connection = await getConnection();
+
+        const query = `SELECT * FROM ${table}`;
+
+        const [books] = await connection.execute(query);
+
+        return books.map((book) => {
+            return new Libro(book.bookId, book.title, book.description, book.tags, book.authors, table, book.image, book.image_public_id);
+        });
+
+    }
+
     insert = async () => {
         const connection = await getConnection();
 
@@ -48,6 +61,8 @@ class Libro {
 
         return connection.execute(query);
     }
+
+
 
     get bookId() {
         return this._bookId;
