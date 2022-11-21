@@ -30,3 +30,8 @@ exports.createUser = async (req, res) => {
 
 };
 
+exports.updateUser = async (req, res) => {
+
+
+};
+
