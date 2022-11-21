@@ -1,8 +1,9 @@
 const {getConnection} = require("../db/db");
 
 class Libro {
-    constructor(title, description, tags, authors, table,image = null, image_public_id = null) {
+    constructor(bookId = null, title, description, tags, authors, table = 'libro',image = null, image_public_id = null) {
 
+        this._bookId = bookId;
         this._title = title;
         this._description = description;
         this._tags = tags;
@@ -19,7 +20,7 @@ class Libro {
 
         const [[libro]] = await connection.execute(query);
         if (!libro) return;
-        return new Libro(libro._title, libro._description, libro.tags, libro._authors, libro._image, libro._image_public_id);
+        return new Libro(libro.bookId, libro.title, libro.description, libro.tags, libro.authors, table, libro.image, libro.image_public_id);
 
     }
 
@@ -30,6 +31,30 @@ class Libro {
 
         return connection.execute(query);
 
+    }
+
+    update = async () => {
+        const connection = await getConnection();
+
+        const query =  `UPDATE ${this._table} SET title = '${this._title}', description = '${this._description}', tags = '${this._tags}', authors = '${this._authors}', image = '${this._image}', image_public_id = '${this._image_public_id}' WHERE bookId = ${this._bookId}`;
+
+        return connection.execute(query);
+    }
+
+    delete = async () => {
+        const connection = await getConnection();
+
+        const query = `DELETE FROM ${this._table} WHERE bookId = '${this._bookId}'`
+
+        return connection.execute(query);
+    }
+
+    get bookId() {
+        return this._bookId;
+    }
+
+    set bookId(value) {
+        this._bookId = value;
     }
 
     get table() {

@@ -8,7 +8,6 @@ exports.createUser = async (req, res) => {
     const {name, first_ln, second_ln, email, password} = body;
 
     const oldUser = await User.findByEmail(email, table);
-
     if(oldUser) return sendError(res, "There's an user already registered with this email");
 
     const newUser = new User(name, first_ln, second_ln, email, password, table);
@@ -21,7 +20,7 @@ exports.createUser = async (req, res) => {
 
     const [results] = await newUser.insert();
 
-    if(!results) return sendError(res, 'There was an error while creating user');
+    if(results.length === 0) return sendError(res, 'There was an error while creating user');
 
     res.status(200).json({
         message: 'Se ha creado el usuario!',
@@ -30,8 +29,4 @@ exports.createUser = async (req, res) => {
 
 };
 
-exports.updateUser = async (req, res) => {
-
-
-};
 
