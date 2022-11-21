@@ -1,8 +1,9 @@
 const {getConnection} = require("../db/db");
 
 class User {
-    constructor(name, first_ln, second_ln, email, password, table, role = 'user', avatar = null, avatar_public_id = null) {
+    constructor(userId = null, name, first_ln, second_ln, email, password, table, role = 'user', avatar = null, avatar_public_id = null) {
 
+        this._userId = userId;
         this._name = name;
         this._first_ln = first_ln;
         this._second_ln = second_ln;
@@ -22,7 +23,7 @@ class User {
 
         const [[user]] = await connection.execute(query);
         if (!user) return;
-        return new User(user.name, user.first_ln, user.second_ln, user.email, user.password, table, user.role, user.avatar, user.avatar_public_id);
+        return new User(user.userId, user.name, user.first_ln, user.second_ln, user.email, user.password, table, user.role, user.avatar, user.avatar_public_id);
 
     }
 
@@ -34,6 +35,15 @@ class User {
         const [[user]] = await connection.execute(query);
         if (!user) return;
         return new User(user.name, user.first_ln, user.second_ln, user.email, user.password, table);
+    }
+
+
+    get userId() {
+        return this._userId;
+    }
+
+    set userId(value) {
+        this._userId = value;
     }
 
     get table() {

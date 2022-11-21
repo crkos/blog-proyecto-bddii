@@ -10,7 +10,7 @@ exports.createUser = async (req, res) => {
     const oldUser = await User.findByEmail(email, table);
     if(oldUser) return sendError(res, "There's an user already registered with this email");
 
-    const newUser = new User(name, first_ln, second_ln, email, password, table);
+    const newUser = new User(null, name, first_ln, second_ln, email, password, table);
 
     if(file){
         const {url, public_id} = await uploadImageToCloud(file.path);
