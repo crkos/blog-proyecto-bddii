@@ -15,7 +15,10 @@ exports.validategetSingleResena = [
 
 exports.validateResena = [
     check('title').trim().not().isEmpty().withMessage('Title is missing'),
-    check('content').trim().not().isEmpty().withMessage('Content is missing')
+    check('content').trim().not().isEmpty().withMessage('Content is missing'),
+    check('visible').isBoolean().withMessage('Visible should be boolean or is missing'),
+    check('usuarioId').isNumeric().withMessage('usuarioId should be a number or is missing'),
+    check('bookId').isNumeric().withMessage('bookId should be a number or is missing')
 ];
 
 exports.validateUser = [
@@ -30,4 +33,11 @@ exports.validateUser = [
         .isLength({ min: 8, max: 20 })
         .withMessage("Password must be 8 to 20 characters long!"),
     check("email").normalizeEmail().isEmail().withMessage("Email is invalid"),
+];
+
+exports.validateBook = [
+    check('title').trim().not().isEmpty().withMessage('Title is empty'),
+    check('description').trim().not().isEmpty().withMessage('Description is empty'),
+    check('tags').trim().not().isEmpty().withMessage('Tags is empty'),
+    check('authors').trim().not().isEmpty().withMessage('Authors is empty')
 ];

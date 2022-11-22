@@ -8,10 +8,10 @@ router.get('/', getResenas);
 
 router.get('/:resenaId', validategetSingleResena, validate ,getSingleResena);
 
-router.post('/create', /*validateResena, validate,*/ createResena);
+router.post('/create', validateResena, validate, createResena);
 
 router.delete('/:resenaId', deleteResena);
 
-router.patch('/:resenaId', updateResena);
+router.patch('/:resenaId', validateResena, validate,updateResena);
 
 module.exports = router;

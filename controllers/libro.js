@@ -33,6 +33,8 @@ exports.updateBook = async (req, res) => {
     const {bookId} = req.params;
     const {title, description, tags, authors} = body;
 
+    if(typeof bookId !== "number") return sendError(res, "bookId should be a number");
+
     const libro = await Libro.findById(bookId, table);
     if(!libro) return sendError(res, "This book doesn't exists");
 

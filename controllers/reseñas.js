@@ -31,6 +31,7 @@ exports.getSingleResena = async (req, res) => {
 
 exports.createResena = async (req, res) => {
     const { title, content, visible, usuarioId = null, bookId = null } = req.body;
+
     const newResena = new Resena(null, title, content, null, null, visible, usuarioId, bookId, table);
 
     const [result] = await newResena.insert();
@@ -60,6 +61,8 @@ exports.deleteResena = async (req, res) => {
 
 exports.updateResena = async (req, res) => {
     const {resenaId} = req.params;
+    if(typeof resenaId !== "number") return sendError(res, 'resenaId should be a number');
+
     const { title, content, visible, usuarioId = null, bookId = null } = req.body;
 
     const resena = await Resena.findById(resenaId);

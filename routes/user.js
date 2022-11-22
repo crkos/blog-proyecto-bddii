@@ -5,6 +5,6 @@ const {uploadImage} = require("../middlewares/multer");
 
 const router = express.Router();
 
-router.post('/create', uploadImage.single('avatar'),validateUser, validate,createUser);
+router.post('/create', uploadImage.single('avatar'), validateUser, validate,createUser);
 
 module.exports = router;
