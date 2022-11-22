@@ -19,9 +19,9 @@ class User {
     static findById = async (id, table = 'usuario') => {
         const connection = await getConnection();
 
-        const query = `SELECT * FROM ${table} WHERE userId='${id}'`;
+        const query = `SELECT * FROM ${table} WHERE userId= ?`;
 
-        const [[user]] = await connection.execute(query);
+        const [[user]] = await connection.execute(query, [id]);
         if (!user) return;
         return new User(user.userId, user.name, user.first_ln, user.second_ln, user.email, user.password, table, user.role, user.avatar, user.avatar_public_id);
 
@@ -30,13 +30,20 @@ class User {
     static findByEmail = async (email, table = 'usuario') => {
         const connection = await getConnection();
 
-        const query = `SELECT * FROM ${table} WHERE email='${email}'`;
+        const query = `SELECT * FROM ${table} WHERE email= ?`;
 
-        const [[user]] = await connection.execute(query);
+        const [[user]] = await connection.execute(query, [email]);
         if (!user) return;
         return new User(user.name, user.first_ln, user.second_ln, user.email, user.password, table);
     }
 
+    insert = async () => {
+        const connection = await getConnection();
+
+        const query = `INSERT INTO ${this._table}(name, first_ln, second_ln, email, password, role, avatar, avatar_public_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
+
+        return connection.execute(query, [this._name, this._first_ln, this._second_ln, this._email, this._password, this._role, this._avatar, this._avatar_public_id]);
+    }
 
     get userId() {
         return this._userId;
@@ -116,14 +123,6 @@ class User {
 
     set avatar_public_id(value) {
         this._avatar_public_id = value;
-    }
-
-    insert = async () => {
-        const connection = await getConnection();
-
-        const query = `INSERT INTO ${this._table}(name, first_ln, second_ln, email, password, role, avatar, avatar_public_id) VALUES ('${this._name}', '${this._first_ln}', '${this._second_ln}', '${this._email}', '${this._password}', '${this._role}', '${this._avatar}', '${this._avatar_public_id}');`;
-
-        return connection.execute(query);
     }
 
 }

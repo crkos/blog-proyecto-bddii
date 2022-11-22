@@ -16,10 +16,12 @@ class Libro {
     static findById = async (id, table = 'libro') => {
         const connection = await getConnection();
 
-        const query = `SELECT * FROM ${table} WHERE bookId=${id}`;
+        const query = `SELECT * FROM ${table} WHERE bookId= ?`;
 
-        const [[libro]] = await connection.execute(query);
+        const [[libro]] = await connection.execute(query, [id]);
+
         if (!libro) return;
+
         return new Libro(libro.bookId, libro.title, libro.description, libro.tags, libro.authors, table, libro.image, libro.image_public_id);
 
     }
@@ -40,26 +42,26 @@ class Libro {
     insert = async () => {
         const connection = await getConnection();
 
-        const query = `INSERT INTO ${this._table}(title, description, tags, authors, image, image_public_id) VALUES("${this._title}","${this._description}","${this._tags}","${this._authors}","${this._image}","${this._image_public_id}")`;
+        const query = `INSERT INTO ${this._table}(title, description, tags, authors, image, image_public_id) VALUES(?, ?, ?, ?, ?, ?)`;
 
-        return connection.execute(query);
+        return connection.execute(query, [this._title, this._description, this._tags, this._authors, this._image, this._image_public_id]);
 
     }
 
     update = async () => {
         const connection = await getConnection();
 
-        const query =  `UPDATE ${this._table} SET title = "${this._title}", description = "${this._description}", tags = "${this._tags}", authors = "${this._authors}", image = "${this._image}", image_public_id = "${this._image_public_id}" WHERE bookId = ${this._bookId}`;
+        const query =  `UPDATE ${this._table} SET title = ?, description = ?, tags = ?, authors = ?, image = ?, image_public_id = ? WHERE bookId = ?`;
 
-        return connection.execute(query);
+        return connection.execute(query, [this._title, this._description, this._tags, this._authors, this._image, this._image_public_id, this._bookId]);
     }
 
     delete = async () => {
         const connection = await getConnection();
 
-        const query = `DELETE FROM ${this._table} WHERE bookId = '${this._bookId}'`
+        const query = `DELETE FROM ${this._table} WHERE bookId = ?`
 
-        return connection.execute(query);
+        return connection.execute(query, [this._bookId]);
     }
 
 

@@ -1,4 +1,3 @@
-const {getConnection} = require("../db/db");
 const {sendError} = require("../utils/helper");
 const Resena = require("../models/reseña");
 

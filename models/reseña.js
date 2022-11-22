@@ -19,9 +19,9 @@ class Resena {
     static findById = async (resenaId, table = 'resena') => {
         const connection = await getConnection();
 
-        const query = `SELECT * FROM ${table} WHERE resenaId=${resenaId}`;
+        const query = `SELECT * FROM ${table} WHERE resenaId= ?`;
 
-        const [[resena]] = await connection.execute(query);
+        const [[resena]] = await connection.execute(query, [resenaId]);
 
         if(!resena) return;
 
@@ -44,27 +44,28 @@ class Resena {
     insert = async () => {
         const connection = await getConnection();
 
-        const query = `INSERT INTO ${this._table}(title, content, visible, usuarioId, bookId) VALUES ("${this._title}", "${this._content}", "${this._visible}", "${this._usuarioId}", "${this._bookId}");`;
+        const query = `INSERT INTO ${this._table}(title, content, visible, usuarioId, bookId) VALUES (?, ?, ?, ?, ?);`;
 
-        return connection.execute(query);
+        return connection.execute(query, [this._title, this._content, this._visible, this._usuarioId, this._bookId]);
 
     }
 
     delete = async () => {
         const connection = await getConnection();
 
-        const query =  `DELETE FROM ${this._table} WHERE resenaId=${this._resenaId}`;
+        const query =  `DELETE FROM ${this._table} WHERE resenaId=?`;
 
-        return connection.execute(query);
+        return connection.execute(query, [this._resenaId]);
 
     }
 
+    //Solo hacer update en title, content, visible, usuarioId y bookId no deberian ser actualizables
     update = async () => {
         const connection = await getConnection();
 
-        const query = `UPDATE ${this._table} SET title="${this._title}", content="${this._content}", visible="${this._visible}", usuarioId=${this._usuarioId}, bookId=${this.bookId} WHERE resenaId=${this._resenaId}`;
+        const query = `UPDATE ${this._table} SET title= ?, content= ?, visible= ?, usuarioId= ?, bookId= ? WHERE resenaId= ?`;
 
-        return connection.execute(query);
+        return connection.execute(query, [this._title, this._content, this._visible, this._usuarioId, this._bookId]);
     }
 
     get table() {
