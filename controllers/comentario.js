@@ -6,6 +6,8 @@ exports.createComentario = async (req, res) => {
     const {content, userId} = req.body;
     const { resena } = req.query;
 
+    if(typeof resena !== "number") return sendError(res, "Resena must be a number");
+
     const newResena = new Comentario(null, content, null, userId, resena);
 
     const [results] = await newResena.insert();
@@ -80,6 +82,8 @@ exports.getSingleComentario = async (req, res) => {
 exports.updateComentario = async (req, res) => {
     const {comentarioId} = req.params;
     const {content} = req.body;
+
+    if(typeof comentarioId !== "number") return sendError(res, "ComentarioId must be a number");
 
     const comentario = await Comentario.findById(comentarioId);
 

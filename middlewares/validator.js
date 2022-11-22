@@ -13,6 +13,11 @@ exports.validategetSingleResena = [
     check("resenaId").isNumeric().withMessage('ResenaId should be a number')
 ];
 
+exports.validateComentario = [
+    check('content').trim().not().isEmpty().withMessage("Content is missing"),
+    check('userId').isNumeric().withMessage("User id must be a number")
+];
+
 exports.validateResena = [
     check('title').trim().not().isEmpty().withMessage('Title is missing'),
     check('content').trim().not().isEmpty().withMessage('Content is missing'),
