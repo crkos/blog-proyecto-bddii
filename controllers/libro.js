@@ -34,7 +34,7 @@ exports.updateBook = async (req, res) => {
     const {title, description, tags, authors} = body;
 
     const libro = await Libro.findById(bookId, table);
-    if(!libro) return sendError(res, 'There was an error while updating libro');
+    if(!libro) return sendError(res, "This book doesn't exists");
 
     libro.title = title;
     libro.description = description;
@@ -70,7 +70,7 @@ exports.deleteBook = async (req, res) => {
 
     const book = await Libro.findById(bookId);
 
-    if(!book) return sendError(res, 'There was an error while deleting libro');
+    if(!book) return sendError(res, "This book doesn't exists");
 
     const [results] = await book.delete();
 
@@ -80,8 +80,6 @@ exports.deleteBook = async (req, res) => {
             return sendError(res, 'Could not remove image from cloud');
         }
     }
-
-
 
     res.status(200).json({
         message: "Se ha eliminado el libro",

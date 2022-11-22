@@ -1,22 +1,16 @@
 const {getConnection} = require("../db/db");
 const {sendError} = require("../utils/helper");
+const Resena = require("../models/reseña");
 
 const table = 'resena';
 
 exports.getResenas = async (req, res) => {
-    const connection = await getConnection();
 
-    const query = `SELECT * FROM ${table}`;
+    const allResenas = await Resena.getAll();
 
-    const [results] = await connection.execute(query);
-    if(!results) return sendError(res, 'There was an error when selecting the table');
-
-    const data = {
-        results
-    };
-
-    res.status(200).json({
-        message: 'Datos!', data
+    res.json({
+        message: "Data!",
+        data: {allResenas}
     });
 
 };
@@ -24,33 +18,64 @@ exports.getResenas = async (req, res) => {
 exports.getSingleResena = async (req, res) => {
     const { resenaId } = req.params;
 
-    const connection = await getConnection();
+    const resena = await Resena.findById(resenaId);
 
-    const query =  `SELECT * FROM ${table} WHERE id=${resenaId}`;
-
-    const [results] = await connection.execute(query);
-
-    if(results.length === 0) return sendError(res, 'No se ha encontrado la resena');
+    if(!resena) return sendError(res, "This resena doesn't exists");
 
     res.status(200).json({
-        message: 'Data!', data: {results}
+        message: 'Data!',
+        data: {resena}
     });
 
 }
 
 exports.createResena = async (req, res) => {
-    const {title, content} = req.body;
-    const connection = await getConnection();
+    const { title, content, visible, usuarioId = null, bookId = null } = req.body;
+    const newResena = new Resena(null, title, content, null, null, visible, usuarioId, bookId, table);
 
-    const query = `INSERT INTO ${table}(title, content) VALUES ('${title}', '${content}');`;
+    const [result] = await newResena.insert();
 
-    const [results] = await connection.execute(query);
-
-    if(!results) return sendError(res, 'There was an error when creating resena');
+    if(result.length === 0) return sendError('There was an error while inserting resena');
 
     res.status(200).json({
-        message: 'Se ha creado la resena', data: {results}
+        message: 'Se ha creado la resena',
+        data: {result}
     });
+}
+
+exports.deleteResena = async (req, res) => {
+    const {resenaId} = req.params;
+
+    const resena = await Resena.findById(resenaId);
+
+    if(!resena) return sendError(res,"This resena doesnt exists");
+
+    const [results] = await resena.delete();
+
+    res.status(200).json({
+        message: "Se ha borrado la resena",
+        data: {results}
+    });
+}
+
+exports.updateResena = async (req, res) => {
+    const {resenaId} = req.params;
+    const { title, content, visible, usuarioId = null, bookId = null } = req.body;
+
+    const resena = await Resena.findById(resenaId);
+    if(!resena) return sendError(res, "This resena doesn't exists");
 
 
+    resena.title = title;
+    resena.content = content;
+    resena.visible = visible;
+    resena.usuarioId = usuarioId;
+    resena.bookId = bookId;
+
+    const [results] = await resena.update();
+
+    res.status(200).json({
+        message: "Se ha actualizado la resena",
+        data: {results}
+    });
 }

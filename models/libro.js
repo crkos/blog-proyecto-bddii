@@ -16,7 +16,7 @@ class Libro {
     static findById = async (id, table = 'libro') => {
         const connection = await getConnection();
 
-        const query = `SELECT * FROM ${table} WHERE bookId='${id}'`;
+        const query = `SELECT * FROM ${table} WHERE bookId=${id}`;
 
         const [[libro]] = await connection.execute(query);
         if (!libro) return;
@@ -40,7 +40,7 @@ class Libro {
     insert = async () => {
         const connection = await getConnection();
 
-        const query = `INSERT INTO ${this._table}(title, description, tags, authors, image, image_public_id) VALUES('${this._title}','${this._description}','${this._tags}','${this._authors}','${this._image}','${this._image_public_id}')`;
+        const query = `INSERT INTO ${this._table}(title, description, tags, authors, image, image_public_id) VALUES("${this._title}","${this._description}","${this._tags}","${this._authors}","${this._image}","${this._image_public_id}")`;
 
         return connection.execute(query);
 
@@ -49,7 +49,7 @@ class Libro {
     update = async () => {
         const connection = await getConnection();
 
-        const query =  `UPDATE ${this._table} SET title = '${this._title}', description = '${this._description}', tags = '${this._tags}', authors = '${this._authors}', image = '${this._image}', image_public_id = '${this._image_public_id}' WHERE bookId = ${this._bookId}`;
+        const query =  `UPDATE ${this._table} SET title = "${this._title}", description = "${this._description}", tags = "${this._tags}", authors = "${this._authors}", image = "${this._image}", image_public_id = "${this._image_public_id}" WHERE bookId = ${this._bookId}`;
 
         return connection.execute(query);
     }
