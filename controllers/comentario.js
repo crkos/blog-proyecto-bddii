@@ -1,5 +1,6 @@
 const Comentario = require('../models/comentario');
 const {sendError} = require("../utils/helper");
+const {compileETag} = require("express/lib/utils");
 
 exports.createComentario = async (req, res) => {
     const {content, userId} = req.body;
@@ -77,5 +78,23 @@ exports.getSingleComentario = async (req, res) => {
 
 
 exports.updateComentario = async (req, res) => {
+    const {comentarioId} = req.params;
+    const {content} = req.body;
+
+    const comentario = await Comentario.findById(comentarioId);
+
+    if(!comentario) return sendError(res, "This comment doesn't exists");
+
+    comentario.content = content;
+
+    const [results] = await comentario.update();
+
+    if(results.length === 0) sendError(res, "There was an error with the update");
+
+    res.status(200).json({
+       message: "Update succesfull",
+       data: {comentario}
+    });
+
 
 }

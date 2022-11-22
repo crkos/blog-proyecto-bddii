@@ -60,6 +60,8 @@ exports.updateBook = async (req, res) => {
 
     const [results] = await libro.update();
 
+    if(results.length === 0) return sendError(res, "There was an error with the update");
+
     res.status(200).json({
         message: "Se ha actualizado el libro",
         data: {results}

@@ -55,13 +55,13 @@ class Comentario {
         return connection.execute(query, [this._content, this._usuarioId, this._resenaId]);
     }
 
-    //Aqui solamente deberia hacer update en content no en usuarioId or resenaId
+
     update = async () => {
         const connection = await getConnection();
 
-        const query = `UPDATE ${this._table} SET content = ?, usuarioId= ?, resenaId = ?`;
+        const query = `UPDATE ${this._table} SET content = ? WHERE comentarioId= ?`;
 
-        return connection.execute(query, [this._content, this._usuarioId, this._usuarioId]);
+        return connection.execute(query, [this._content, this._comentarioId]);
     }
 
     delete = async () => {
