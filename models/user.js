@@ -1,4 +1,5 @@
 const {getConnection} = require("../db/db");
+const bcrypt = require("bcrypt");
 
 class User {
     constructor(userId = null, name, first_ln, second_ln, email, password, table, role = 'user', avatar = null, avatar_public_id = null) {
@@ -41,6 +42,8 @@ class User {
         const connection = await getConnection();
 
         const query = `INSERT INTO ${this._table}(name, first_ln, second_ln, email, password, role, avatar, avatar_public_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
+
+        this._password = await bcrypt.hash(this._password, 10);
 
         return connection.execute(query, [this._name, this._first_ln, this._second_ln, this._email, this._password, this._role, this._avatar, this._avatar_public_id]);
     }
