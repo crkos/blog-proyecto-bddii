@@ -5,9 +5,11 @@ const morgan = require('morgan');
 const {errorHandler} = require("./middlewares/error");
 const {handleNotFound} = require("./utils/helper");
 const app = express();
+
 const resenasRouter = require('./routes/reseñas');
 const userRouter = require('./routes/user');
 const bookRouter = require('./routes/libro');
+const comentarioRouter = require('./routes/comentario');
 
 
 
@@ -17,6 +19,7 @@ app.use(morgan("dev"));
 app.use('/api/v1/resena', resenasRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/libro', bookRouter);
+app.use('/apu/v1/comentario', comentarioRouter);
 
 app.use('/*', handleNotFound);
 app.use(errorHandler);

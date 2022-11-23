@@ -1,4 +1,5 @@
-import {getConnection} from "../db/db";
+const {getConnection} = require("../db/db");
+
 
 class Comentario {
     constructor(comentarioId = null, content, created_at, usuarioId = null, resenaId = null, table = 'comentario') {

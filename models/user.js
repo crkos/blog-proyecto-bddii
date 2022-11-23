@@ -35,7 +35,13 @@ class User {
 
         const [[user]] = await connection.execute(query, [email]);
         if (!user) return;
-        return new User(user.name, user.first_ln, user.second_ln, user.email, user.password, table);
+        return new User(user.userId, user.name, user.first_ln, user.second_ln, user.email, user.password, table, user.role, user.avatar, user.avatar_public_id);
+    }
+
+    comparePassword = async (password) => {
+
+        return await bcrypt.compare(password, this._password);
+
     }
 
     insert = async () => {
@@ -43,6 +49,7 @@ class User {
 
         const query = `INSERT INTO ${this._table}(name, first_ln, second_ln, email, password, role, avatar, avatar_public_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
 
+        //SHA1 Tener mejor rendimiento que hacer esto ->.
         this._password = await bcrypt.hash(this._password, 10);
 
         return connection.execute(query, [this._name, this._first_ln, this._second_ln, this._email, this._password, this._role, this._avatar, this._avatar_public_id]);

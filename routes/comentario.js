@@ -3,17 +3,20 @@ const {createComentario, getAllComentarios, getSingleComentario, getAllComentari
     updateComentario
 } = require("../controllers/comentario");
 const {validateComentario, validate} = require("../middlewares/validator");
+const {isAuth} = require("../middlewares/auth");
 
 const router = express.Router();
 
-router.get('/', getAllComentarios);
+router.get('/',isAuth, getAllComentarios);
 
-router.get('/:comentarioId', getSingleComentario);
+router.get('/:comentarioId',isAuth, getSingleComentario);
 
-router.get('/resena/:resenaId', getAllComentariosFromResena);
+router.get('/resena/:resenaId', isAuth,getAllComentariosFromResena);
 
-router.post('/create', validateComentario, validate, createComentario);
+router.post('/create', isAuth,validateComentario, validate, createComentario);
 
-router.delete('/:comentarioId', deleteComentario);
+router.delete('/:comentarioId',isAuth, deleteComentario);
 
-router.patch('/:comentarioId', validateComentario, validate, updateComentario);
+router.patch('/:comentarioId',isAuth, validateComentario, validate, updateComentario);
+
+module.exports = router;

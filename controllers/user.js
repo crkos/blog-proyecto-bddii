@@ -1,5 +1,6 @@
 const {sendError, uploadImageToCloud} = require("../utils/helper");
 const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
 const table = 'usuario';
 
@@ -29,4 +30,20 @@ exports.createUser = async (req, res) => {
 
 };
 
+exports.signIn = async (req, res) => {
+    const {email, password} = req.body;
+
+    const user = await User.findByEmail(email);
+    const matched = await user.comparePassword(password);
+    if(!matched) return sendError(res, "This email/password are incorrect");
+
+    const {userId, name, role, } = user;
+
+    const jwtToken = jwt.sign({
+        userId: userId
+    }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    res.json({user:{id: userId, name, email,token: jwtToken, role }});
+
+}
 

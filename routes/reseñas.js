@@ -1,17 +1,18 @@
 const express = require('express');
 const {getResenas, createResena, getSingleResena, deleteResena, updateResena} = require("../controllers/reseñas");
 const {validate, validategetSingleResena, validateResena} = require("../middlewares/validator");
+const {isAuth} = require("../middlewares/auth");
 
 const router = express.Router();
 
-router.get('/', getResenas);
+router.get('/',isAuth, getResenas);
 
-router.get('/:resenaId', validategetSingleResena, validate ,getSingleResena);
+router.get('/:resenaId', isAuth,validategetSingleResena, validate ,getSingleResena);
 
-router.post('/create', validateResena, validate, createResena);
+router.post('/create', isAuth,validateResena, validate, createResena);
 
-router.delete('/:resenaId', deleteResena);
+router.delete('/:resenaId',isAuth, deleteResena);
 
-router.patch('/:resenaId', validateResena, validate,updateResena);
+router.patch('/:resenaId',isAuth, validateResena, validate,updateResena);
 
 module.exports = router;

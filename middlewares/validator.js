@@ -13,6 +13,11 @@ exports.validategetSingleResena = [
     check("resenaId").isNumeric().withMessage('ResenaId should be a number')
 ];
 
+exports.signInValidator = [
+    check("email").normalizeEmail().isEmail().withMessage("Email is invalid!"),
+    check("password").trim().not().isEmpty().withMessage("Password is missing!"),
+];
+
 exports.validateComentario = [
     check('content').trim().not().isEmpty().withMessage("Content is missing"),
     check('userId').isNumeric().withMessage("User id must be a number")
