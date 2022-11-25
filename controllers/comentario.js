@@ -1,12 +1,12 @@
 const Comentario = require('../models/comentario');
 const {sendError} = require("../utils/helper");
-const {compileETag} = require("express/lib/utils");
+
 
 exports.createComentario = async (req, res) => {
     const {content, userId} = req.body;
     const { resena } = req.query;
 
-    if(typeof resena !== "number") return sendError(res, "Resena must be a number");
+    if(typeof parseInt(resena) !== "number") return sendError(res, "Resena must be a number");
 
     const newResena = new Comentario(null, content, null, userId, resena);
 
@@ -67,8 +67,8 @@ exports.getAllComentariosFromResena = async (req, res) => {
 exports.getSingleComentario = async (req, res) => {
     const {comentarioId} = req.params;
 
-    const comentario = Comentario.findById(comentarioId);
-
+    const comentario = await Comentario.findById(comentarioId);
+    console.log(comentario);
     if(!comentario) return sendError(res, "This comment doesn't exists");
 
     res.status(200).json({

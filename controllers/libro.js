@@ -6,7 +6,6 @@ const table = 'libro'
 
 exports.createBook = async (req, res) => {
     const {file, body} = req;
-
     const { title, description, tags, authors } = body;
 
     const newLibro = new Libro(null, title, description, tags, authors, table);
@@ -33,7 +32,7 @@ exports.updateBook = async (req, res) => {
     const {bookId} = req.params;
     const {title, description, tags, authors} = body;
 
-    if(typeof bookId !== "number") return sendError(res, "bookId should be a number");
+    if(typeof parseInt(bookId) !== "number") return sendError(res, "bookId should be a number");
 
     const libro = await Libro.findById(bookId, table);
     if(!libro) return sendError(res, "This book doesn't exists");
@@ -45,7 +44,7 @@ exports.updateBook = async (req, res) => {
 
     const public_id = libro.image_public_id;
 
-    if(file && public_id !== 'null') {
+    if(file && public_id) {
         const { result } = await cloudinary.uploader.destroy(public_id);
         if(result !== 'ok'){
             return sendError(res, 'Could not remove image from cloud');

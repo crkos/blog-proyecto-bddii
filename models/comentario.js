@@ -20,7 +20,7 @@ class Comentario {
 
         if(!comentario) return;
 
-        return new Comentario(comentario.comentarioId, comentario.content, comentario.created_at, comentario.usuarioId, comentario.resenaId);
+        return new Comentario(comentario.comentarioId, comentario.content, comentario.created_at, comentario.usuarioId, comentario.resenaId)
 
     }
 

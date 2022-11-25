@@ -13,7 +13,7 @@ router.get('/:comentarioId',isAuth, getSingleComentario);
 
 router.get('/resena/:resenaId', isAuth,getAllComentariosFromResena);
 
-router.post('/create', isAuth,validateComentario, validate, createComentario);
+router.post('/create', isAuth, validateComentario, validate, createComentario);
 
 router.delete('/:comentarioId',isAuth, deleteComentario);
 

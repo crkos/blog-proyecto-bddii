@@ -19,7 +19,7 @@ app.use(morgan("dev"));
 app.use('/api/v1/resena', resenasRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/libro', bookRouter);
-app.use('/apu/v1/comentario', comentarioRouter);
+app.use('/api/v1/comentario', comentarioRouter);
 
 app.use('/*', handleNotFound);
 app.use(errorHandler);
