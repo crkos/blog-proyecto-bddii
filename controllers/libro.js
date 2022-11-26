@@ -77,7 +77,7 @@ exports.deleteBook = async (req, res) => {
 
     const [results] = await book.delete();
 
-    if(book.image_public_id !== 'null') {
+    if(book.image_public_id) {
         const {result} = await cloudinary.uploader.destroy(book.image_public_id);
         if (result !== 'ok') {
             return sendError(res, 'Could not remove image from cloud');

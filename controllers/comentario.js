@@ -3,7 +3,8 @@ const {sendError} = require("../utils/helper");
 
 
 exports.createComentario = async (req, res) => {
-    const {content, userId} = req.body;
+    const {content} = req.body;
+    const { userId } = req.user;
     const { resena } = req.query;
 
     if(typeof parseInt(resena) !== "number") return sendError(res, "Resena must be a number");
