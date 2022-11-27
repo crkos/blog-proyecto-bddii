@@ -69,7 +69,6 @@ exports.getSingleComentario = async (req, res) => {
     const {comentarioId} = req.params;
 
     const comentario = await Comentario.findById(comentarioId);
-    console.log(comentario);
     if(!comentario) return sendError(res, "This comment doesn't exists");
 
     res.status(200).json({

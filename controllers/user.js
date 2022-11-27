@@ -38,7 +38,6 @@ exports.signIn = async (req, res) => {
     if(!matched) return sendError(res, "This email/password are incorrect");
 
     const {userId, name, role, } = user;
-    console.log(user);
     const jwtToken = jwt.sign({
         userId: userId
     }, process.env.JWT_SECRET, { expiresIn: '1h' });
