@@ -63,9 +63,9 @@ class Resena {
     update = async () => {
         const connection = await getConnection();
 
-        const query = `UPDATE ${this._table} SET title= ?, content= ?, visible= ?, usuarioId= ?, bookId= ? WHERE resenaId= ?`;
+        const query = `UPDATE ${this._table} SET title= ?, content= ?, visible= ? WHERE resenaId= ?`;
 
-        return connection.execute(query, [this._title, this._content, this._visible, this._usuarioId, this._bookId]);
+        return connection.execute(query, [this._title, this._content, this._visible, this._resenaId]);
     }
 
     get table() {

@@ -9,10 +9,10 @@ router.get('/',isAuth, getResenas);
 
 router.get('/:resenaId', isAuth,validategetSingleResena, validate ,getSingleResena);
 
-router.post('/create', isAuth,validateResena, validate, createResena);
+router.post('/create/:bookId', isAuth,validateResena, validate, createResena);
 
 router.delete('/:resenaId',isAuth, deleteResena);
 
-router.patch('/:resenaId',isAuth, validateResena, validate,updateResena);
+router.patch('/:resenaId',isAuth, validateResena, validate, updateResena);
 
 module.exports = router;

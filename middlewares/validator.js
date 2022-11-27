@@ -20,15 +20,12 @@ exports.signInValidator = [
 
 exports.validateComentario = [
     check('content').trim().not().isEmpty().withMessage("Content is missing"),
-    check('userId').isNumeric().withMessage("User id must be a number")
 ];
 
 exports.validateResena = [
     check('title').trim().not().isEmpty().withMessage('Title is missing'),
     check('content').trim().not().isEmpty().withMessage('Content is missing'),
     check('visible').isBoolean().withMessage('Visible should be boolean or is missing'),
-    check('usuarioId').isNumeric().withMessage('usuarioId should be a number or is missing'),
-    check('bookId').isNumeric().withMessage('bookId should be a number or is missing')
 ];
 
 exports.validateUser = [

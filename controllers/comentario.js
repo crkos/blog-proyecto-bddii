@@ -25,7 +25,7 @@ exports.createComentario = async (req, res) => {
 exports.deleteComentario = async (req, res) => {
     const {comentarioId} = req.params;
 
-    const comentario = Comentario.findById(comentarioId);
+    const comentario = await Comentario.findById(comentarioId);
 
     const [result] = await comentario.delete();
 
@@ -84,7 +84,7 @@ exports.updateComentario = async (req, res) => {
     const {comentarioId} = req.params;
     const {content} = req.body;
 
-    if(typeof comentarioId !== "number") return sendError(res, "ComentarioId must be a number");
+    if(typeof parseInt(comentarioId) !== "number") return sendError(res, "ComentarioId must be a number");
 
     const comentario = await Comentario.findById(comentarioId);
 
