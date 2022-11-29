@@ -1,5 +1,6 @@
 const Comentario = require('../models/comentario');
 const {sendError} = require("../utils/helper");
+const {user} = require("../db/config");
 
 
 exports.createComentario = async (req, res) => {
@@ -62,6 +63,34 @@ exports.getAllComentariosFromResena = async (req, res) => {
         message: "Data",
         data: {comentarios}
     });
+
+}
+
+exports.getAllComentariosUser = async (req, res) => {
+    const {userId} = req.params
+
+    const comentarios = await Comentario.getAllComentarioFromUser(userId);
+
+    if(!comentarios) return sendError(res, "This user doens't have any comments in reseñas");
+
+    res.status(200).json({
+        message: "Data",
+        data: {comentarios}
+    })
+
+}
+
+exports.getAllComentarioFromUser = async (req, res) => {
+    const { userId } = req.user;
+    const comentarios = await Comentario.getAllComentarioFromUser(userId);
+
+    if(!comentarios) return sendError(res, "This user doesn't have any comments in reseñas");
+
+    res.status(200).json({
+        message: "Data",
+        data: {comentarios}
+    })
+
 
 }
 

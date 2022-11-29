@@ -1,6 +1,6 @@
 const express = require('express');
 const {createComentario, getAllComentarios, getSingleComentario, getAllComentariosFromResena, deleteComentario,
-    updateComentario
+    updateComentario, getAllComentarioFromUser, getAllComentariosUser
 } = require("../controllers/comentario");
 const {validateComentario, validate} = require("../middlewares/validator");
 const {isAuth} = require("../middlewares/auth");
@@ -11,7 +11,11 @@ router.get('/',isAuth, getAllComentarios);
 
 router.get('/:comentarioId',isAuth, getSingleComentario);
 
-router.get('/resena/:resenaId', isAuth,getAllComentariosFromResena);
+router.get('/resena/:resenaId', isAuth, getAllComentariosFromResena);
+
+router.get('/user/comentario', isAuth, getAllComentarioFromUser);
+
+router.get('/comentarios-user/:userId', isAuth, getAllComentariosUser);
 
 router.post('/create', isAuth, validateComentario, validate, createComentario);
 

@@ -48,6 +48,19 @@ class Comentario {
         });
     }
 
+    static getAllComentarioFromUser = async (usuarioId, table = "comentario") => {
+        const connection = await getConnection();
+
+        const query = `SELECT * FROM ${table} WHERE usuarioId = ?`;
+
+        const [comentarios] = await connection.execute(query, [usuarioId]);
+
+        return comentarios.map(comentario => {
+            return new Comentario(comentario.comentarioId, comentario.content, comentario.created_at, comentario.usuarioId, comentario.resenaId, table);
+        });
+
+    }
+
     insert = async () => {
         const connection = await getConnection();
 
