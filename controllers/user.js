@@ -15,7 +15,7 @@ exports.createUser = async (req, res) => {
 
     const result = await newUser.getLastId();
 
-    newUser.userId = result[0][0].LastID;
+    newUser.userId = result[0][0].LastID+1;
 
     if(file){
         const {url, public_id} = await uploadImageToCloud(file.path);
