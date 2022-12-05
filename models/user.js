@@ -44,6 +44,15 @@ class User {
 
     }
 
+    getLastId = async () => {
+        const connection = await getConnection();
+
+        const query = `SELECT MAX(userId) AS LastID FROM ${this._table};`
+
+        return connection.execute(query);
+
+    }
+
     insert = async () => {
         const connection = await getConnection();
 
