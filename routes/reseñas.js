@@ -1,5 +1,5 @@
 const express = require('express');
-const {getResenas, createResena, getSingleResena, deleteResena, updateResena} = require("../controllers/reseñas");
+const {getResenas, createResena, getSingleResena, deleteResena, updateResena, getResenasFromLibro} = require("../controllers/reseñas");
 const {validate, validategetSingleResena, validateResena} = require("../middlewares/validator");
 const {isAuth} = require("../middlewares/auth");
 
@@ -14,5 +14,7 @@ router.post('/create/:bookId', isAuth,validateResena, validate, createResena);
 router.delete('/:resenaId',isAuth, deleteResena);
 
 router.patch('/:resenaId',isAuth, validateResena, validate, updateResena);
+
+router.get('/libro/:libroId', isAuth, getResenasFromLibro)
 
 module.exports = router;

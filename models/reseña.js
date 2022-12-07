@@ -28,6 +28,22 @@ class Resena {
         return new Resena(resena.resenaId, resena.title, resena.content, resena.created_at, resena.edited_at, resena.visible, resena.usuarioId, resena.bookId, table);
     }
 
+    static getAllResenasFromLibro = async (libroId, table = 'resena') => {
+        const connection = await getConnection();
+
+        const query = `SELECT * FROM ${table} WHERE bookId = ?`;
+
+        const [resenas] = await connection.execute(query, [libroId]);
+
+        if(!resenas) return
+
+        return resenas.map(resena => {
+            return new Resena(resena.resenaId, resena.title, resena.content, resena.created_at, resena.edited_at, resena.visible, resena.usuarioId, resena.bookId, table)
+        })
+
+
+    }
+
     static getAll = async (table = 'resena') => {
         const connection = await getConnection();
 

@@ -28,6 +28,21 @@ exports.getSingleResena = async (req, res) => {
 
 }
 
+exports.getResenasFromLibro = async (req, res) => {
+    const { libroId } = req.params;
+
+    const resenas = await Resena.getAllResenasFromLibro(libroId);
+
+    if(!resenas) return sendError(res, "There are no reseñas for this book");
+
+    res.status(200).json({
+        message: 'Data!',
+        data: {resenas}
+    })
+
+
+}
+
 exports.createResena = async (req, res) => {
     const { title, content, visible } = req.body;
     const { bookId } = req.params;
